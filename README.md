@@ -161,5 +161,15 @@ Simply enter the admin credentials you created above (email & password).
 
 The system will automatically recognize the admin account based on the isAdmin: true flag in the database.
 
+### 🎉 Thank you for using this project!
+
+If you found this project helpful, feel free to:
+
+- ⭐ Star this repository on GitHub to show your support.
+- 🐞 Report any issues or bugs via the Issues section.
+- 📄 Contribute by opening a pull request to improve the project.
+
+Happy coding! 🚀
+
 
 
