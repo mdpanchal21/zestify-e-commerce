@@ -1,0 +1,171 @@
+/* --- Navbar (Header) --- */
+.custom-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #0070f3, #0051a8); /* Modern blue gradient */
+  padding: 1rem 2rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 70px;  /* Fixed height for the header */
+}
+
+/* Logo */
+.custom-logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.custom-logo .logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;  /* Ensures the logo is vertically centered */
+}
+
+.logo-wrapper img{
+  margin-left: 36px;
+}
+/* Target the logo image to adjust its size */
+.logo-image {
+  width: 120px;  /* Initial logo width, adjust as needed */
+  height: 71px;  /* Maintain aspect ratio */
+}
+/* Navbar buttons */
+.custom-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-btn,
+.logout-btn {
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: white;
+  color: #0070f3;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-btn:hover,
+.logout-btn:hover {
+  background-color: #0051a8;
+  color: white;
+}
+
+/* --- Main Content --- */
+.custom-main-we {
+  padding: 0 2rem 2rem 2rem;
+  min-height: 80vh;
+  background-color: #f5faff; /* Very light blue background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title inside main */
+.custom-title {
+  font-size: 3rem;
+  color: #0070f3;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Subtitle inside main */
+.custom-subtext {
+  font-size: 1.2rem;
+  color: #555;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Button group inside main */
+.custom-buttons {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Login button */
+.login-btn {
+  background-color: #0070f3;
+  color: white;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #0051a8;
+}
+
+/* Register button */
+.register-btn {
+  background-color: white;
+  color: #0070f3;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  border: 2px solid #0070f3;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.register-btn:hover {
+  background-color: #0070f3;
+  color: white;
+}
+
+/* --- Footer --- */
+.custom-footer {
+  background-color: #e5f0ff; /* Light blue footer */
+  color: #333;
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-top: auto;
+  border-top: 1px solid #cce0ff;
+}
+
+/* --- Responsive adjustments --- */
+@media (max-width: 768px) {
+  .custom-navbar {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .custom-nav {
+      margin-top: 1rem;
+      flex-direction: column;
+      width: 100%;
+  }
+
+  .custom-buttons {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .custom-main {
+      padding: 2rem 1rem;
+  }
+}
+
+.footer-p {
+  font-size: 1.2rem;
+  color: #555;
+  text-align: center;
+}

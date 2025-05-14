@@ -1,0 +1,19 @@
+# Node dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS and IDE files
+.DS_Store
+.env
+*.log
+
+# Optional: VS Code settings
+.vscode/

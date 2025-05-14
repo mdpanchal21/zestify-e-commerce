@@ -1,0 +1,107 @@
+.register-container {
+  width: 385px;
+  margin: 1rem auto 3rem auto;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.register-container h1 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 2rem;
+}
+
+/* .register-container input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+} */
+
+.register-btn-reg{
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #0070f3;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.register-btn-reg:hover {
+  background-color: #0059c1;
+}
+
+.register-link {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.register-link a {
+  color: #0070f3;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+.input-container-register {
+  position: relative;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.input-container-register input {
+  width: 100%;
+  padding: 1rem 0.75rem 0.25rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: transparent;
+}
+
+.input-container-register input:focus {
+  border-color: #0070f3;
+  outline: none;
+}
+
+.input-container-register label {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.75rem;
+  background-color: #fff;
+  padding: 0 0.25rem;
+  color: #888;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.2s ease all;
+}
+
+.input-container-register input:focus + label,
+.input-container-register input:not(:placeholder-shown) + label {
+  top: -0.6rem;
+  left: 0.6rem;
+  font-size: 0.75rem;
+  color: #0070f3;
+}
+.toggle-password-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+}

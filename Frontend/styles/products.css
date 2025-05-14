@@ -1,0 +1,112 @@
+/* Header Styling */
+.product-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  border-bottom: 1px solid #ddd;
+}
+
+.product-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.product-actions button {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.product-actions button:hover {
+  background-color: #005bb5;
+}
+
+.product-actions button:last-child {
+  background-color: #e53935;
+}
+
+.product-actions button:last-child:hover {
+  background-color: #c62828;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.product-card {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-card h2 {
+  margin-top: 0.75rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.product-card p {
+  margin: 0.25rem 0;
+  color: #666;
+}
+
+/* Pagination Styling */
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover {
+  background-color: #0070f3;
+}
+
+.pagination button.active {
+  background-color: #0070f3;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}

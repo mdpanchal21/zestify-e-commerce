@@ -1,0 +1,43 @@
+[{
+  "_id": {
+    "$oid": "67ffc71a76ad20309967144d"
+  },
+  "userId": "67ffc70276ad20309967144c",
+  "items": [
+    {
+      "productId": "67feb4a2e8d87495bcfec572",
+      "quantity": 1
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67ffe545ccf4b96c70190468"
+  },
+  "userId": "67ffe22accf4b96c70190467",
+  "items": [
+    {
+      "productId": "67feb4a9e8d87495bcfec573",
+      "quantity": 1
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67ffe8a9ccf4b96c7019046a"
+  },
+  "userId": "67ffe88cccf4b96c70190469",
+  "items": [
+    {
+      "productId": "67feb4aae8d87495bcfec574",
+      "quantity": 1
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67ffeb809c428c8d1ab839a5"
+  },
+  "userId": "67ffeaf59c428c8d1ab839a4",
+  "items": []
+}]

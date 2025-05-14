@@ -1,0 +1,144 @@
+[{
+  "_id": {
+    "$oid": "67feb4a2e8d87495bcfec572"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745634473-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4a9e8d87495bcfec573"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745641595-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4aae8d87495bcfec574"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745642346-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4abe8d87495bcfec575"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745643085-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4abe8d87495bcfec576"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745643696-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4ace8d87495bcfec577"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745644233-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4ace8d87495bcfec578"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745644561-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4ace8d87495bcfec579"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745644740-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4ace8d87495bcfec57a"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745644951-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4ade8d87495bcfec57b"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745645138-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4ade8d87495bcfec57c"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745645457-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4ade8d87495bcfec57d"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745645711-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4aee8d87495bcfec57e"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745646052-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4aee8d87495bcfec57f"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745646272-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67feb4aee8d87495bcfec580"
+  },
+  "name": "tshirt",
+  "price": "234",
+  "category": "clothing",
+  "image": "/uploads/1744745646676-file_example_JPG_500kB.jpg"
+},
+{
+  "_id": {
+    "$oid": "67ff99d86b2249f3395f0253"
+  },
+  "name": "Red Hoodie",
+  "price": null,
+  "category": "Hoodies",
+  "image": "/uploads/1744804312976-file_example_JPG_500kB.jpg"
+}]
