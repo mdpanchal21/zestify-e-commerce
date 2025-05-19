@@ -12,6 +12,7 @@ import '@/styles/Layout.css';
 import '@/styles/admin/user.css';
 import '@/styles/admin/product.css';
 import '@/styles/admin/Dashboard.css';
+import '@/styles/admin/order.css';
 
 
 import type { AppProps } from "next/app";

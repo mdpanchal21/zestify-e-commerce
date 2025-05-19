@@ -9,25 +9,33 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
-    const res = await fetch("http://localhost:5000/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, phone }),
-    });
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password, phone }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (data.message === "User registered successfully") {
-      toast.success(data.message); // ✅ Show success toast
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 2000); // Wait 2 seconds before redirect
-    } else {
-      toast.error(data.message || "Registration failed");
+      if (res.ok) {
+        toast.success(data.message);
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 2000);
+      } else {
+        toast.error(data.message || "Registration failed");
+      }
+    } catch (err) {
+      toast.error("Something went wrong.");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -127,8 +135,8 @@ export default function RegisterPage() {
             />
             <label htmlFor="phone">Phone Number</label>
           </div>
-          <button type="submit" className="register-btn-reg">
-            Register
+          <button type="submit" className="register-btn-reg" disabled={loading}>
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
 

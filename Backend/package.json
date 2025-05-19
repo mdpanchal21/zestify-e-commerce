@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-     "makeadmin": "node scripts/createAdmin.js"
+    "makeadmin": "node scripts/createAdmin.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
     "multer": "^1.4.5-lts.2",
+    "nodemailer": "^7.0.3",
     "pg": "^8.14.1",
     "sequelize": "^6.37.7"
   },

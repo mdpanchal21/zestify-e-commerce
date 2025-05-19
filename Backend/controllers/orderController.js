@@ -39,7 +39,8 @@ const placeOrder = async (req, res) => {
       items: enrichedItems,
       shippingAddress,
       totalAmount,
-      createdAt: new Date()
+      createdAt: new Date(),
+      orderStatus: 'Pending'
     };
 
     await db.collection("orders").insertOne(order);

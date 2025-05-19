@@ -169,5 +169,97 @@ router.post('/products', authMiddleware, isAdmin, upload.single('image'), async 
   }
 });
 
+// get all order as admin
+router.get('/admin-orders', authMiddleware, isAdmin, async (req, res) => {
+  try {
+    const db = getDB();
+
+    // Find orders and sort by createdAt descending (latest first)
+    const orders = await db.collection('orders')
+      .find()
+      .sort({ createdAt: -1 })
+      .toArray();
+
+    const formattedOrders = orders.map(order => ({
+      id: order._id,
+      totalAmount: order.totalAmount || 0,
+      createdAt: order.createdAt || new Date(),
+      orderStatus: order.orderStatus || 'Pending' // static for now
+    }));
+
+    res.json(formattedOrders);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch orders', error: err.message });
+  }
+});
+
+// order status update as admin
+router.put('/admin-orders/:id/status', authMiddleware, isAdmin, async (req, res) => {
+  const db = getDB();
+  const { id } = req.params;
+  const { status } = req.body;  // expected new status
+
+  // Validate status (optional but recommended)
+  const allowedStatuses = ['Pending', 'On the way', 'Delivered', 'Cancelled'];
+  if (!allowedStatuses.includes(status)) {
+    return res.status(400).json({ message: 'Invalid status value' });
+  }
+
+  try {
+    const result = await db.collection('orders').updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { orderStatus: status } }
+
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.json({ message: 'Order status updated successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update order status', error: err.message });
+  }
+});
+
+// get all order as admin particluar id wise
+router.get('/admin-orders/:id', authMiddleware, isAdmin, async (req, res) => {
+  const db = getDB();
+  const { id } = req.params;
+
+  try {
+    // Find the order by _id
+    const order = await db.collection('orders').findOne({ _id: new ObjectId(id) });
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    // Fetch user info by order.userId (assuming stored as ObjectId)
+    const user = await db.collection('users').findOne({ _id: new ObjectId(order.userId) });
+
+    // Compose response data
+    const orderDetails = {
+      id: order._id,
+      totalAmount: order.totalAmount || 0,
+      createdAt: order.createdAt || new Date(),
+      orderStatus: order.orderStatus || 'Pending', // ✅ Include orderStatus
+      user: user
+        ? {
+            name: user.name || '',
+            email: user.email || '',
+            address: user.address || '',
+          }
+        : null,
+      items: order.items || [],
+      paymentMethod: order.paymentMethod || '',
+      shippingAddress: order.shippingAddress || '',
+    };
+
+    res.json(orderDetails);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch order details', error: err.message });
+  }
+});
+
 
 module.exports = router;

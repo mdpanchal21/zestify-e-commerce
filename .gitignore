@@ -1,19 +1,34 @@
 # Node dependencies
-node_modules/
+**/node_modules/
 
-# Next.js build output
-.next/
-out/
+# Build output
+**/.next/
+**/out/
+**/dist/
 
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
 
 # OS and IDE files
 .DS_Store
-.env
+Thumbs.db
 *.log
 
-# Optional: VS Code settings
+# VSCode settings
 .vscode/
+
+# Uploaded images and files (optional, if not tracked intentionally)
+Backend/uploads/
+
+# MongoDB dump or local DB files (optional, based on your intent)
+DB/*.json

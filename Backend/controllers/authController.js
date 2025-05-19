@@ -1,36 +1,72 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { getDB } = require('../config/dbMongo');
+const sendEmail = require('../utils/sendEmail');
+
 
 exports.register = async (req, res) => {
   const { name, email, password, phone } = req.body;
   const db = getDB();
 
-  // Validate that all required fields are provided
   if (!name || !email || !password || !phone) {
-    return res.status(400).json({ message: 'All fields are required'});
+    return res.status(400).json({ message: 'All fields are required' });
   }
 
   try {
-    // Check if the email already exists
     const existingUser = await db.collection('users').findOne({ email });
     if (existingUser) return res.status(400).json({ message: 'Email already registered' });
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create the user object
     const user = { name, email, password: hashedPassword, phone };
 
-    // Insert the new user into the database
     await db.collection('users').insertOne(user);
 
-    // Send success response
-    res.status(201).json({ message: 'User registered successfully', user: { name, email, phone } });
+    // ✅ Send email
+    const subject = 'Welcome to Our Shop!';
+    // image was upload in imgBB free server link : https://ibb.co/7tX4zX7Q
+    const html = `
+  <div style="max-width: 600px; margin: auto; padding: 20px; font-family: Arial, sans-serif; border: 1px solid #eee; border-radius: 8px;">
+    <div style="text-align: center; padding-bottom: 20px;">
+      <img src="https://i.ibb.co/ZzVmJVyS/zestify.png" alt="Shop Logo" width="120" />
+    </div>
+    <h2 style="color: #333;">Welcome, ${name} 👋</h2>
+    <p style="font-size: 16px; color: #555;">
+      Thank you for registering at <strong>Our Shop</strong>! We're excited to have you join our shopping community.
+    </p>
+
+    <div style="margin-top: 20px;">
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone}</p>
+    </div>
+
+    <div style="margin-top: 30px;">
+      <a href="https://your-ecommerce-site.com" style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none;">
+        Start Shopping 🛍️
+      </a>
+    </div>
+
+    <p style="margin-top: 30px; font-size: 14px; color: #888;">
+      If you have any questions, feel free to reply to this email. We're here to help!
+    </p>
+
+    <hr style="margin-top: 40px;" />
+    <p style="font-size: 12px; color: #aaa; text-align: center;">
+      &copy; ${new Date().getFullYear()} Our Shop. All rights reserved.
+    </p>
+  </div>
+`;
+
+    await sendEmail(email, subject, html);
+
+    res.status(201).json({
+      message: 'User registered successfully.',
+      user: { name, email, phone },
+    });
   } catch (err) {
     res.status(500).json({ message: 'Registration error', error: err.message });
   }
 };
+
 
 
 exports.login = async (req, res) => {

@@ -62,27 +62,51 @@ export default function ProductDetailsPage() {
 
   return (
     <main className="product-detail-container">
-      <div className="product-detail-card">
-        <img
-          src={`http://localhost:5000${product.image}`}
-          alt={product.name}
-          className="product-detail-image"
-        />
-        <div className="product-detail-info">
-          <h1 className="product-detail-name">{product.name}</h1>
-          <p className="product-detail-price"><strong>Price:</strong> ${product.price}</p>
-          <p className="product-detail-category"><strong>Category:</strong> {product.category}</p>
-          <p className="product-detail-description"><strong>Description:</strong> {product.description}</p>
+  <div className="product-detail-card">
+    <img
+      src={`http://localhost:5000${product.image}`}
+      alt={product.name}
+      className="product-detail-image"
+    />
+    <div className="product-detail-info">
+      <h1 className="product-detail-name">{product.name}</h1>
 
-          <button className="product-detail-btn" onClick={addToCart}>
-            🛒 Add to Cart
-          </button>
+      <p className="product-detail-brand"><strong>Brand:</strong> {product.category}</p>
 
-          <button className="product-detail-back-btn" onClick={() => router.back()}>
-            ← Go Back
-          </button>
-        </div>
+
+      <p className="product-detail-price">₹{product.price}</p>
+
+      <span className="product-detail-offer">🔥 Limited Time Offer: 10% OFF</span>
+
+      <p className="product-detail-availability">✔️ In stock</p>
+
+      <p className="product-detail-delivery">🚚 Delivery in 2–4 business days</p>
+
+      <p className="product-detail-description"><strong>Description:</strong> {product.description}</p>
+
+      <div className="product-detail-actions">
+        <button className="product-detail-btn" onClick={addToCart}>
+          🛒 Add to Cart
+        </button>
+
+        <button
+  className="product-detail-buy-btn"
+  onClick={async () => {
+    await addToCart(); // Add to cart first
+    router.push('/checkout'); // Then redirect
+  }}
+>
+  ⚡ Buy Now
+</button>
+
+
+        <button className="product-detail-back-btn" onClick={() => router.back()}>
+          ← Go Back
+        </button>
       </div>
-    </main>
+    </div>
+  </div>
+</main>
+
   );
 }

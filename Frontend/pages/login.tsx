@@ -1,35 +1,42 @@
-import { useState } from 'react';
-import Layout from '@/components/Layout';
+import { useState } from "react";
+import Layout from "@/components/Layout";
 // import '@/styles/login.css'; // Import external login CSS
-import Link from 'next/link'; // Make sure this is imported
-import { toast } from 'react-toastify';
+import Link from "next/link"; // Make sure this is imported
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
-    const res = await fetch('http://localhost:5000/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      toast.success('Login successful!');
-      setTimeout(() => {
-        window.location.href = '/products';
-      }, 2000); // wait 2 seconds before redirecting
-    } else {
-      toast.error(data.message || 'Login failed.');
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        toast.success("Login successful!");
+        setTimeout(() => {
+          window.location.href = "/products";
+        }, 2000);
+      } else {
+        toast.error(data.message || "Login failed.");
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -50,7 +57,7 @@ export default function LoginPage() {
           </div>
           <div className="input-container">
             <input
-               type={showPassword ? "text" : "password"}
+              type={showPassword ? "text" : "password"}
               placeholder=" "
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -106,14 +113,17 @@ export default function LoginPage() {
               )}
             </button>
           </div>
-          <button type="submit" className='login-btn-logpage'>Login</button>
+          <button
+            type="submit"
+            className="login-btn-logpage"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
         </form>
 
         <p className="register-link">
-          Don't have an account?{' '}
-          <Link href="/register">
-            Register now
-          </Link>
+          Don't have an account? <Link href="/register">Register now</Link>
         </p>
       </div>
     </Layout>
