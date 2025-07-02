@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   min-height: 90vh;
-  /* background: linear-gradient(135deg, #e0f7fa, #ffffff); */
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
   padding: 20px;
 }
 
@@ -80,6 +80,7 @@
   font-size: 1rem;
   transition: border 0.3s ease;
   background-color: #fff;
+  color: #333 ;
 }
 
 .checkout-address input:focus {

@@ -296,7 +296,7 @@ p {
   font-size: 1rem;
   line-height: 1.5;
   color: #333;
-  margin: 6px 0;
+  /* margin: 6px 0; */
 }
 
 .itemList {

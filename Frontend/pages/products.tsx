@@ -15,7 +15,7 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 15;
+  const productsPerPage = 18;
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -123,7 +123,10 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <div className="product-grid">
+      <div className="product-grid-product" style={{
+    minHeight: currentProducts.length < 2 ? "calc(100vh - 118px)" : "",
+  }}>
+    
         {currentProducts.map((product) => (
           <div key={product._id} className="product-card">
             <Link href={`/products/${product._id}`}>
@@ -142,7 +145,7 @@ export default function ProductsPage() {
       </div>
 
       {/* Pagination buttons */}
-      <div className="pagination">
+      <div className="pagination-product">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}

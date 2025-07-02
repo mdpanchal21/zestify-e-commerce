@@ -5,6 +5,7 @@
   font-size: 1rem;
   border-radius: 6px;
   border: 1px solid #ccc;
+  color: #333;
 }
 
 .product-list {
@@ -22,6 +23,7 @@
   padding: 15px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   gap: 20px;
+  color: #333;
 }
 
 .product-list-item img {
@@ -269,12 +271,14 @@
   margin-bottom: 10px;
   border: 2px solid #ccc;
   border-radius: 12px;
+  color: #333;
 }
 
 .edit-model-h2 {
   text-align: center;
   font-size: 26px;
   font-weight: 500;
+  color: #333;
 }
 
 .delete-overlay {
@@ -379,6 +383,7 @@
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  color: #164a18;
 }
 
 /* Hover effect with shadow and border color change */
@@ -484,6 +489,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: #333;
 }
 
 .main-h1{

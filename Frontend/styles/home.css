@@ -128,6 +128,7 @@ body{
   display: flex;
   justify-content: center;
   gap: 8px;
+  color: #333;
 }
 
 .pagination button {
@@ -153,6 +154,7 @@ body{
 .pagination button:disabled {
   background-color: #f0f0f0;
   cursor: not-allowed;
+  color: #ccc;
 }
 
 @media (max-width: 1200px) {

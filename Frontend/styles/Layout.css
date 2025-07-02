@@ -168,4 +168,6 @@
   font-size: 1.2rem;
   color: #555;
   text-align: center;
+  background-color: #f5faff; /* Very light blue background */
+  font-weight: bold;
 }
