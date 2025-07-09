@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Header from "../components/Header"; // Adjust path if needed
+
 
 type Product = {
   _id: string;
@@ -13,6 +15,7 @@ type Product = {
 export default function ProductsPage() {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>(["All"]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 18;
@@ -34,7 +37,20 @@ export default function ProductsPage() {
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error(err));
-  }, []);
+       // Fetch categories
+  fetch("http://localhost:5000/api/products/categories", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (Array.isArray(data)) {
+        setCategories(["All", ...data]);
+      }
+    })
+    .catch((err) => console.error("Failed to fetch categories:", err));
+}, []);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -48,7 +64,6 @@ export default function ProductsPage() {
     setCurrentPage(1);
   }, [searchQuery, selectedCategory]);
 
-  const categories = ["All", ...new Set(products.map((p) => p.category))];
 
   // Pagination logic
   const filteredProducts = products.filter((product) => {
@@ -79,7 +94,7 @@ export default function ProductsPage() {
 
   return (
     <main>
-      <div className={`product-header ${isAdmin ? "admin-logged-in" : ""}`}>
+      {/* <div className={`product-header ${isAdmin ? "admin-logged-in" : ""}`}>
         <h1>All Products</h1>
         <div className="product-actions">
           <div className="search-drop-prt">
@@ -94,6 +109,7 @@ export default function ProductsPage() {
                 </option>
               ))}
             </select>
+
             <input
               type="text"
               placeholder="Search products"
@@ -121,28 +137,62 @@ export default function ProductsPage() {
             Logout
           </button>
         </div>
-      </div>
+      </div> */}
+      <Header
+  isAdmin={isAdmin}
+  categories={categories}
+  selectedCategory={selectedCategory}
+  setSelectedCategory={setSelectedCategory}
+  searchQuery={searchQuery}
+  setSearchQuery={setSearchQuery}
+  showFilters={true}
+/>
 
-      <div className="product-grid-product" style={{
-    minHeight: currentProducts.length < 2 ? "calc(100vh - 118px)" : "",
-  }}>
-    
-        {currentProducts.map((product) => (
-          <div key={product._id} className="product-card">
-            <Link href={`/products/${product._id}`}>
-              <img
-                src={`http://localhost:5000${product.image}`}
-                alt={product.name}
-              />
-            </Link>
-            <h2>{product.name}</h2>
-            <p>
-              <strong>${product.price}</strong>
-            </p>
-            <p>Category: {product.category}</p>
-          </div>
-        ))}
+<div className="products-header-container">
+  <h1 className="page-title">
+    {selectedCategory === "All"
+      ? "All Products"
+      : `${selectedCategory} Products`}
+  </h1>
+</div>
+
+<div
+  className="product-grid-product"
+  style={{
+    minHeight: currentProducts.length < 12 ? "calc(100vh - 118px)" : "",
+  }}
+>
+  {currentProducts.length === 0 ? (
+  <div className="no-products-modern">
+    <img src="/no-product-found.png" alt="No products" />
+    <h2>No products found</h2>
+    <p>Try changing the category or search term to explore more items.</p>
+    <button onClick={() => {
+      setSearchQuery('');
+      setSelectedCategory('All');
+    }}>
+      🔄 Reset Filters
+    </button>
+  </div>
+) : (
+    currentProducts.map((product) => (
+      <div key={product._id} className="product-card">
+        <Link href={`/products/${product._id}`}>
+          <img
+            src={`http://localhost:5000${product.image}`}
+            alt={product.name}
+          />
+        </Link>
+        <h2>{product.name}</h2>
+        <p>
+          <strong>${product.price}</strong>
+        </p>
+        <p>Category: {product.category}</p>
       </div>
+    ))
+  )}
+</div>
+
 
       {/* Pagination buttons */}
       <div className="pagination-product">

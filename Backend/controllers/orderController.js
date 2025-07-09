@@ -9,9 +9,15 @@ const placeOrder = async (req, res) => {
       return res.status(400).json({ message: "Missing order data" });
     }
 
-    const db = getDB();
+    const { line1, city, state, zip, country } = shippingAddress;
+    if (!line1 || !city || !state || !zip || !country) {
+      return res.status(400).json({ message: "Incomplete shipping address" });
+    }
 
-    // ✅ Fetch full product details for each item
+    const db = getDB();
+    const userId = new ObjectId(req.user.id);
+
+    // Fetch full product details
     const enrichedItems = await Promise.all(
       items.map(async (item) => {
         const product = await db.collection("products").findOne({ _id: new ObjectId(item.productId) });
@@ -35,15 +41,26 @@ const placeOrder = async (req, res) => {
     }, 0);
 
     const order = {
-      userId: req.user.id,
+      userId: userId,
       items: enrichedItems,
-      shippingAddress,
+      shippingAddress: { line1, city, state, zip, country },
       totalAmount,
       createdAt: new Date(),
       orderStatus: 'Pending'
     };
 
+    // Save order
     await db.collection("orders").insertOne(order);
+
+    // 🟢 If this is the user's first order, save the address
+    const existingOrders = await db.collection("orders").find({ userId }).toArray();
+    if (existingOrders.length === 1) {
+      const fullAddress = `${line1}, ${city}, ${state}, ${zip}, ${country}`;
+      await db.collection("users").updateOne(
+        { _id: userId },
+        { $set: { address: fullAddress } }
+      );
+    }
 
     res.status(201).json({ message: "Order placed successfully" });
   } catch (error) {
@@ -52,4 +69,33 @@ const placeOrder = async (req, res) => {
   }
 };
 
-module.exports = { placeOrder };
+const getRecentOrderAddress = async (req, res) => {
+  const db = getDB();
+  const userId = new ObjectId(req.user.id);
+
+  try {
+    const recentOrder = await db.collection("orders")
+      .find({ userId })
+      .sort({ createdAt: -1 }) // sort by latest
+      .limit(1)
+      .toArray();
+
+    if (recentOrder.length === 0) {
+      return res.status(404).json({ message: "No orders found" });
+    }
+
+    const shippingAddress = recentOrder[0].shippingAddress;
+    const fullAddress = `${shippingAddress.line1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}, ${shippingAddress.country}`;
+
+    return res.json({ shippingAddress: fullAddress });
+  } catch (err) {
+    console.error("Error fetching recent order address:", err);
+    res.status(500).json({ message: "Failed to fetch recent address" });
+  }
+};
+
+
+module.exports = { placeOrder , getRecentOrderAddress };
+
+
+

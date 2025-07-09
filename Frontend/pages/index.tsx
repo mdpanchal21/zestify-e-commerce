@@ -2,6 +2,7 @@
 import Layout from '@/components/Layout';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Loader from '@/components/Loader';
 
 type Product = {
   _id: string;
@@ -16,13 +17,26 @@ export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 15;
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true); // default: checking
+
 
   useEffect(() => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    router.push('/products'); // redirect to main page if logged in
+  } else {
+    // User not logged in, continue to load products
     fetch('http://localhost:5000/api/products')
       .then((res) => res.json())
       .then((data) => setProducts(data))
-      .catch((err) => console.error(err));
-  }, []);
+      .catch((err) => console.error(err))
+      .finally(() => {
+        setIsCheckingAuth(false); // done checking, allow rendering
+      });
+  }
+}, []);
+
 
   const handleProductClick = (productId: string) => {
     const token = localStorage.getItem('token');
@@ -42,8 +56,10 @@ export default function HomePage() {
     setCurrentPage(pageNumber);
     window.scrollTo(0, 0);
   };
+  if (isCheckingAuth) return <Loader />;
 
   return (
+    <>{isCheckingAuth && <Loader />}
     <Layout>
       <main className="custom-main">
         <div className="product-grid">
@@ -90,5 +106,6 @@ export default function HomePage() {
         </div>
       </main>
     </Layout>
+    </>
   );
 }

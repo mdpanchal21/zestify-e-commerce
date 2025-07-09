@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getDB } = require('../config/dbMongo');
+const { ObjectId } = require('mongodb'); // Added for ObjectId conversion
 
 // GET /api/user-orders/:userId for get order into past order page 
 router.get('/user-orders/:userId', async (req, res) => {
@@ -8,7 +9,8 @@ router.get('/user-orders/:userId', async (req, res) => {
 
   try {
     const db = getDB();
-    const orders = await db.collection('orders').find({ userId }).toArray();
+    // Convert userId to ObjectId for correct querying
+    const orders = await db.collection('orders').find({ userId: new ObjectId(userId) }).toArray();
     res.status(200).json({ orders });
   } catch (err) {
     console.error('Error fetching orders:', err);

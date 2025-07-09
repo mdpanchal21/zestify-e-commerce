@@ -21,6 +21,7 @@ if (!fs.existsSync(uploadsDir)) {
 
 // 🔹 Serve static images from uploads folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads/profile-picture', express.static(path.join(__dirname, 'uploads/profile-picture')));
 
 connectMongo(); // Connect to MongoDB
 
@@ -33,5 +34,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api', userOrderRoutes);
 app.use('/api/admin', adminRoutes);
 // app.use('/api/admin', adminRoutes);
+app.use('/api/user', require('./routes/user'));
+
 
 module.exports = app;

@@ -1,4 +1,5 @@
 const Product = require('../models/productModel');
+const categoryList = require('../utils/categoryList');
 
 exports.getAllProducts = async (req, res) => {
   const products = await Product.getAll();
@@ -48,4 +49,12 @@ exports.deleteProduct = async (req, res) => {
 exports.getCategoryStats = async (req, res) => {
   const stats = await Product.aggregateByCategory();
   res.json(stats);
+};
+
+exports.getAllCategories = async (req, res) => {
+  try {
+    res.json(categoryList); // Send predefined category list
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to get categories', error: err.message });
+  }
 };

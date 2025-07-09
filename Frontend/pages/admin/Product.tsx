@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 interface Product {
   _id: string;
@@ -13,26 +13,37 @@ interface Product {
 export default function ProductManagement() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 10;
-  const [isProductModalOpen, setIsProductModalOpen] = useState(false);  // Modal state
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);  // Selected product state
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false); // Modal state
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // Selected product state
   const router = useRouter();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false); // For modal visibility
-  const [editForm, setEditForm] = useState({ name: '', price: '', category: '' }); // For the product form
+  const [editForm, setEditForm] = useState({
+    name: "",
+    price: "",
+    category: "",
+  }); // For the product form
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [createForm, setCreateForm] = useState({
-    name: '',
-    price: '',
-    category: '',
+    name: "",
+    price: "",
+    category: "",
     image: null as File | null, // Updated field for image
   });
 
-
-
+  const allowedCategories = [
+    "Electronics",
+    "Clothing",
+    "Accessories",
+    "Home & Kitchen",
+    "Books",
+    "Toys",
+    "Beauty",
+  ];
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to top when currentPage changes
@@ -40,17 +51,17 @@ export default function ProductManagement() {
 
   // Fetch products on load
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
 
     if (!token || !user.isAdmin) {
-      router.push('/');
+      router.push("/");
       return;
     }
 
     const fetchProducts = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/admin/products', {
+        const res = await fetch("http://localhost:5000/api/admin/products", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const productsData = await res.json();
@@ -58,7 +69,7 @@ export default function ProductManagement() {
         setLoading(false);
       } catch (err) {
         console.error(err);
-        toast.error('Failed to load products');
+        toast.error("Failed to load products");
       }
     };
 
@@ -66,15 +77,19 @@ export default function ProductManagement() {
   }, []);
 
   // Handle search functionality for products
-  const filteredProducts = products.filter((product) =>
-    product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.category?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.category?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Pagination logic for products
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,28 +107,32 @@ export default function ProductManagement() {
     if (!productToDelete) return;
 
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/admin/products/${productToDelete}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const token = localStorage.getItem("token");
+      const res = await fetch(
+        `http://localhost:5000/api/admin/products/${productToDelete}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.message || 'Failed to delete product');
+        throw new Error(data.message || "Failed to delete product");
       }
 
-      setProducts((prev) => prev.filter((product) => product._id !== productToDelete));
-      toast.success('Product deleted successfully');
+      setProducts((prev) =>
+        prev.filter((product) => product._id !== productToDelete)
+      );
+      toast.success("Product deleted successfully");
     } catch (err) {
       console.error(err);
-      toast.error('Failed to delete product');
+      toast.error("Failed to delete product");
     } finally {
       setIsDeleteModalOpen(false);
       setProductToDelete(null);
     }
   };
-
 
   // Handle editing a product
   const handleEditProduct = (product: Product) => {
@@ -132,24 +151,27 @@ export default function ProductManagement() {
     const { name, price, category } = editForm;
 
     if (!name || !price || !category) {
-      toast.error('Please fill all fields');
+      toast.error("Please fill all fields");
       return;
     }
 
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/admin/products/${selectedProduct._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name, price: parseFloat(price), category }),
-      });
+      const token = localStorage.getItem("token");
+      const res = await fetch(
+        `http://localhost:5000/api/admin/products/${selectedProduct._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ name, price: parseFloat(price), category }),
+        }
+      );
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.message || 'Failed to update product');
+        throw new Error(data.message || "Failed to update product");
       }
 
       // Update the products list in the state
@@ -161,14 +183,13 @@ export default function ProductManagement() {
         )
       );
 
-      toast.success('Product updated successfully');
+      toast.success("Product updated successfully");
       setIsEditModalOpen(false); // Close the modal
     } catch (err) {
       console.error(err);
-      toast.error('Failed to update product');
+      toast.error("Failed to update product");
     }
   };
-
 
   // const updateProduct = async (productId: string, name: string, price: number, category: string) => {
   //   try {
@@ -201,7 +222,7 @@ export default function ProductManagement() {
 
   // Handle product creation
   const handleCreateProduct = () => {
-    setCreateForm({ name: '', price: '', category: '', image: null }); // Clear form
+    setCreateForm({ name: "", price: "", category: "", image: null }); // Clear form
     setIsCreateModalOpen(true); // Open modal
   };
 
@@ -209,20 +230,20 @@ export default function ProductManagement() {
     const { name, price, category, image } = createForm;
 
     if (!name || !price || !category || !image) {
-      toast.error('Please fill all fields');
+      toast.error("Please fill all fields");
       return;
     }
 
     const formData = new FormData();
-    formData.append('name', name);
-    formData.append('price', parseFloat(price).toString());
-    formData.append('category', category);
-    formData.append('image', image); // Append the image file
+    formData.append("name", name);
+    formData.append("price", parseFloat(price).toString());
+    formData.append("category", category);
+    formData.append("image", image); // Append the image file
 
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/admin/products', {
-        method: 'POST',
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:5000/api/admin/products", {
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -231,21 +252,18 @@ export default function ProductManagement() {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.message || 'Failed to create product');
+        throw new Error(data.message || "Failed to create product");
       }
 
       const newProduct = await res.json();
       setProducts((prev) => [...prev, newProduct]);
-      toast.success('Product created successfully');
+      toast.success("Product created successfully");
       setIsCreateModalOpen(false); // Close modal
     } catch (err) {
       console.error(err);
-      toast.error('Failed to create product');
+      toast.error("Failed to create product");
     }
   };
-
-
-
 
   // Loading state
   if (loading) return <p className="loading">Loading products...</p>;
@@ -259,8 +277,11 @@ export default function ProductManagement() {
   return (
     <div className="product-management">
       <div className="header-prt">
-      <h1 className='main-h1'>Product Section</h1>
-      <button onClick={handleCreateProduct} className='create-product-btn'>Create New Product</button></div>
+        <h1 className="main-h1">Product Section</h1>
+        <button onClick={handleCreateProduct} className="create-product-btn">
+          Create New Product
+        </button>
+      </div>
       <input
         type="text"
         placeholder="Search products by name or category..."
@@ -277,20 +298,34 @@ export default function ProductManagement() {
               className="product-list-item"
               onClick={() => handleProductClick(product)} // Open modal on product click
             >
-              <img src={`http://localhost:5000${product.image}`} alt={product.name} />
+              <img
+                src={`http://localhost:5000${product.image}`}
+                alt={product.name}
+              />
               <div>
                 <strong>{product.name}</strong>
-                <p>💲{product.price} | 📁 {product.category}</p>
+                <p>
+                  💲{product.price} | 📁 {product.category}
+                </p>
               </div>
 
               <div className="product-actions">
-                <button onClick={(e) => { e.stopPropagation(); handleEditProduct(product); }}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditProduct(product);
+                  }}
+                >
                   ✏️ Edit
                 </button>
-                <button onClick={(e) => { e.stopPropagation(); handleDeleteClick(product._id); }}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(product._id);
+                  }}
+                >
                   🗑️ Delete
                 </button>
-
               </div>
             </div>
           ))
@@ -301,9 +336,18 @@ export default function ProductManagement() {
 
       {/* Product Details Modal */}
       {isProductModalOpen && selectedProduct && (
-        <div className="product-modal-overlay open" onClick={() => setIsProductModalOpen(false)}>
-          <div className="product-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="product-modal-close" onClick={() => setIsProductModalOpen(false)}>
+        <div
+          className="product-modal-overlay open"
+          onClick={() => setIsProductModalOpen(false)}
+        >
+          <div
+            className="product-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="product-modal-close"
+              onClick={() => setIsProductModalOpen(false)}
+            >
               <span>&times;</span>
             </button>
 
@@ -337,33 +381,51 @@ export default function ProductManagement() {
         </div>
       )}
       {isEditModalOpen && selectedProduct && (
-        <div className="modal-overlay open" onClick={() => setIsEditModalOpen(false)}>
+        <div
+          className="modal-overlay open"
+          onClick={() => setIsEditModalOpen(false)}
+        >
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="product-modal-close" onClick={() => setIsEditModalOpen(false)}>
+            <button
+              className="product-modal-close"
+              onClick={() => setIsEditModalOpen(false)}
+            >
               &times;
             </button>
-            <h2 className='edit-model-h2'>Edit Product</h2>
+            <h2 className="edit-model-h2">Edit Product</h2>
             <input
               type="text"
               placeholder="Name"
               value={editForm.name}
-              onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-              className='edit-input-product'
+              onChange={(e) =>
+                setEditForm({ ...editForm, name: e.target.value })
+              }
+              className="edit-input-product"
             />
             <input
               type="number"
               placeholder="Price"
               value={editForm.price}
-              onChange={(e) => setEditForm({ ...editForm, price: e.target.value })}
-              className='edit-input-product'
+              onChange={(e) =>
+                setEditForm({ ...editForm, price: e.target.value })
+              }
+              className="edit-input-product"
             />
-            <input
-              type="text"
-              placeholder="Category"
+            <select
               value={editForm.category}
-              onChange={(e) => setEditForm({ ...editForm, category: e.target.value })}
-              className='edit-input-product'
-            />
+              onChange={(e) =>
+                setEditForm({ ...editForm, category: e.target.value })
+              }
+              className="edit-input-product"
+            >
+              <option value="">Select Category</option>
+              {allowedCategories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+
             <button className="save-btn" onClick={handleUpdateProduct}>
               Save Changes
             </button>
@@ -371,15 +433,26 @@ export default function ProductManagement() {
         </div>
       )}
       {isDeleteModalOpen && (
-        <div className="delete-overlay" onClick={() => setIsDeleteModalOpen(false)}>
+        <div
+          className="delete-overlay"
+          onClick={() => setIsDeleteModalOpen(false)}
+        >
           <div className="delete-content" onClick={(e) => e.stopPropagation()}>
             <h2 className="delete-title">Confirm Deletion</h2>
-            <p className="delete-message">Are you sure you want to delete this product?</p>
+            <p className="delete-message">
+              Are you sure you want to delete this product?
+            </p>
             <div className="delete-buttons">
-              <button className="delete-confirm-btn" onClick={confirmDeleteProduct}>
+              <button
+                className="delete-confirm-btn"
+                onClick={confirmDeleteProduct}
+              >
                 Yes, Delete
               </button>
-              <button className="delete-cancel-btn" onClick={() => setIsDeleteModalOpen(false)}>
+              <button
+                className="delete-cancel-btn"
+                onClick={() => setIsDeleteModalOpen(false)}
+              >
                 Cancel
               </button>
             </div>
@@ -387,34 +460,52 @@ export default function ProductManagement() {
         </div>
       )}
       {isCreateModalOpen && (
-        <div className="modal-overlay open" onClick={() => setIsCreateModalOpen(false)}>
+        <div
+          className="modal-overlay open"
+          onClick={() => setIsCreateModalOpen(false)}
+        >
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="product-modal-close" onClick={() => setIsCreateModalOpen(false)}>
+            <button
+              className="product-modal-close"
+              onClick={() => setIsCreateModalOpen(false)}
+            >
               &times;
             </button>
-            <h2 className='edit-model-h2'>Create New Product</h2>
+            <h2 className="edit-model-h2">Create New Product</h2>
 
             <input
               type="text"
               placeholder="Product Name"
               value={createForm.name}
-              onChange={(e) => setCreateForm({ ...createForm, name: e.target.value })}
-              className='edit-input-product'
+              onChange={(e) =>
+                setCreateForm({ ...createForm, name: e.target.value })
+              }
+              className="edit-input-product"
             />
             <input
               type="number"
               placeholder="Price"
               value={createForm.price}
-              onChange={(e) => setCreateForm({ ...createForm, price: e.target.value })}
-              className='edit-input-product'
+              onChange={(e) =>
+                setCreateForm({ ...createForm, price: e.target.value })
+              }
+              className="edit-input-product"
             />
-            <input
-              type="text"
-              placeholder="Category"
+            <select
               value={createForm.category}
-              onChange={(e) => setCreateForm({ ...createForm, category: e.target.value })}
-              className='edit-input-product'
-            />
+              onChange={(e) =>
+                setCreateForm({ ...createForm, category: e.target.value })
+              }
+              className="edit-input-product"
+            >
+              <option value="">Select Category</option>
+              {allowedCategories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+
             <input
               type="file"
               accept="image/*"
@@ -434,7 +525,10 @@ export default function ProductManagement() {
 
       {/* Pagination */}
       <div className="pagination">
-        <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
           Prev
         </button>
 
@@ -442,13 +536,16 @@ export default function ProductManagement() {
           <button
             key={i + 1}
             onClick={() => setCurrentPage(i + 1)}
-            className={currentPage === i + 1 ? 'active' : ''}
+            className={currentPage === i + 1 ? "active" : ""}
           >
             {i + 1}
           </button>
         ))}
 
-        <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
           Next
         </button>
       </div>

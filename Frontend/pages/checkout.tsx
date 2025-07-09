@@ -13,10 +13,10 @@ interface CartItem {
 }
 
 interface ShippingForm {
-  fullName: string;
-  address: string;
+  line1: string;
   city: string;
-  postalCode: string;
+  state: string;
+  zip: string;
   country: string;
 }
 
@@ -25,10 +25,10 @@ export default function CheckoutPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [formData, setFormData] = useState<ShippingForm>({
-    fullName: '',
-    address: '',
+    line1: '',
     city: '',
-    postalCode: '',
+    state: '',
+    zip: '',
     country: '',
   });
 
@@ -65,14 +65,14 @@ export default function CheckoutPage() {
         toast.error("You must be logged in to place an order.");
         return;
       }
-  
+
       // Validate that all shipping fields are filled
-      const { fullName, address, city, postalCode, country } = formData;
-      if (!fullName || !address || !city || !postalCode || !country) {
+      const { line1, city, state, zip, country } = formData;
+      if (!line1 || !city || !state || !zip || !country) {
         toast.error("Please fill in all shipping address fields.");
         return;
       }
-  
+
       const response = await fetch("http://localhost:5000/api/orders/place", {
         method: "POST",
         headers: {
@@ -84,9 +84,9 @@ export default function CheckoutPage() {
           shippingAddress: formData
         })
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         toast.success("🎉 Order placed successfully!");
         router.push("/order-success"); // Optional redirect
@@ -98,7 +98,6 @@ export default function CheckoutPage() {
       toast.error("Something went wrong!");
     }
   };
-  
 
   return (
     <main className="checkout-container">
@@ -121,20 +120,20 @@ export default function CheckoutPage() {
         <section className="checkout-address">
           <h2 className="section-title">🏠 Shipping Address</h2>
           <form className="address-form">
-            <input type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleInputChange} required />
-            <input type="text" name="address" placeholder="Street Address" value={formData.address} onChange={handleInputChange} required />
+            <input type="text" name="line1" placeholder="Address Line 1" value={formData.line1} onChange={handleInputChange} required />
             <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleInputChange} required />
-            <input type="text" name="postalCode" placeholder="Postal Code" value={formData.postalCode} onChange={handleInputChange} required />
+            <input type="text" name="state" placeholder="State" value={formData.state} onChange={handleInputChange} required />
+            <input type="text" name="zip" placeholder="Zip" value={formData.zip} onChange={handleInputChange} required />
             <input type="text" name="country" placeholder="Country" value={formData.country} onChange={handleInputChange} required />
           </form>
         </section>
         <div className="button-group">
-        <button className="proceed-btn" onClick={placeOrder}>
+        <button className="proceed-btn" onClick={placeOrder} type="button">
   Place Order
 </button>
 
 
-<button className="back-btn" onClick={() => router.push('/cart')}>
+<button className="back-btn-checkout" onClick={() => router.push('/cart')} type="button">
   Return to Cart
 </button>
 </div>

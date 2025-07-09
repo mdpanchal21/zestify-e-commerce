@@ -5,7 +5,7 @@ const sendEmail = require('../utils/sendEmail');
 
 
 exports.register = async (req, res) => {
-  const { name, email, password, phone } = req.body;
+ const { name, email, password, phone } = req.body;
   const db = getDB();
 
   if (!name || !email || !password || !phone) {
@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
     if (existingUser) return res.status(400).json({ message: 'Email already registered' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = { name, email, password: hashedPassword, phone };
+    const user = { name, email, password: hashedPassword, phone , createdAt: new Date()};
 
     await db.collection('users').insertOne(user);
 
@@ -67,8 +67,6 @@ exports.register = async (req, res) => {
   }
 };
 
-
-
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   const db = getDB();
@@ -101,3 +99,48 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.changePassword = async (req, res) => {
+  const { oldPassword, newPassword, confirmNewPassword } = req.body;
+  const db = getDB();
+
+  // 1. Basic input validation
+  if (!oldPassword || !newPassword || !confirmNewPassword) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  // 2. Confirm new passwords match
+  if (newPassword !== confirmNewPassword) {
+    return res.status(400).json({ message: 'New passwords do not match' });
+  }
+
+  try {
+    // 3. Get user from decoded JWT
+    const user = await db.collection('users').findOne({ email: req.user.email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // 4. Check old password is correct
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Old password is incorrect' });
+    }
+
+    // 5. Check if new password is different
+    const isSamePassword = await bcrypt.compare(newPassword, user.password);
+    if (isSamePassword) {
+      return res.status(400).json({ message: 'New password must be different from old password' });
+    }
+
+    // 6. Hash and update the new password
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    await db.collection('users').updateOne(
+      { email: req.user.email },
+      { $set: { password: hashedNewPassword } }
+    );
+
+    res.json({ message: 'Password changed successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error changing password', error: err.message });
+  }
+};

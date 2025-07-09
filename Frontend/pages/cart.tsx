@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import Header from '@/components/Header';
 
 interface Product {
   name: string;
@@ -22,7 +23,6 @@ export default function CartPage() {
   const router = useRouter();
   const [cart, setCart] = useState<Cart | null>(null);
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-  const [isAdmin, setIsAdmin] = useState(false);
 
 
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
@@ -53,14 +53,6 @@ export default function CartPage() {
       router.push('/login');
     } else {
       fetchCart();
-    }
-  }, []);
-
-  useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      setIsAdmin(parsedUser.isAdmin === true);
     }
   }, []);
   const calculateTotal = () => {
@@ -161,7 +153,7 @@ export default function CartPage() {
 
   return (
     <>
-      <header className="cart-header">
+      {/* <header className="cart-header">
         <h2>🛒 My Cart</h2>
         <div>
         {isAdmin && (
@@ -185,8 +177,8 @@ export default function CartPage() {
             Logout
           </button>
         </div>
-      </header>
-
+      </header> */}
+  <Header />
       <main className="cart-main">
         <h1 className="cart-title">Your Cart</h1>
 

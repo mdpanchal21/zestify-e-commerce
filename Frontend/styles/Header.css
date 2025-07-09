@@ -1,0 +1,221 @@
+.product-header {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(90deg, #0070f3, #0051a8);
+  padding: 1rem 0 1rem 2rem;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-actions button {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.product-actions button:hover {
+  background-color: #005bb5;
+}
+
+.product-actions button:last-child {
+  background-color: #e53935;
+}
+
+.product-actions button:last-child:hover {
+  background-color: #c62828;
+}
+.search-input {
+  height: 36px;
+  box-sizing: border-box;
+  line-height: 1.5;
+  border: none;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #111;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  outline: none;
+  background-color: #ffffff;
+}
+.profile-container {
+  margin-left: 1rem;
+  margin-top: 0.3rem;
+  flex-grow: 0.5;
+}
+
+.profile-icon {
+  font-size: 30px;
+  color: #f3f4f6;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.profile-container:hover .profile-icon {
+  color: #d1d5db;
+  transform: scale(1.05);
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 4.4rem;
+  right: 0.5rem;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  width: 160px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.25s ease;
+}
+
+.profile-container:hover .profile-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.profile-dropdown div {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #333;
+  transition: background 0.2s;
+}
+
+.profile-dropdown div:hover {
+  background-color: #f5f5f5;
+}
+
+.profile-dropdown div:last-child {
+  border-bottom: none;
+  color: #e53935;
+}
+.profile-dropdown div {
+  transition: background 0.2s, padding-left 0.2s;
+}
+
+.profile-dropdown div:hover {
+  padding-left: 18px;
+}
+.site-logo {
+  /* height: 40px; */
+  object-fit: contain;
+}
+.logo-wrapper-header {
+  height: 40px;
+  width: 73px;
+  flex-grow: 2;
+  margin-top: -7vw;
+}
+.icon-button {
+  flex-grow: 0.5;
+  margin-left: 1rem;
+  margin-top: 0.3rem;
+}
+.cart-icon {
+  font-size: 27px;
+  color: #f3f4f6;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.cart-icon:hover {
+  color: #d1d5db;
+  transform: scale(1.05);
+}
+.search-drop-prt-header {
+  flex-grow: 14;
+  margin-left: 50vh;
+  display: flex;
+}
+.hidden-filter-space {
+  visibility: hidden;
+  pointer-events: none;
+}
+.category-dropdown {
+  width: 130px;
+  background-color: #f3f3f3;
+  border: none;
+  border-right: 1px solid #ccc;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #111;
+  outline: none;
+  cursor: pointer;
+  height: 36px;
+  box-sizing: border-box;
+  border-radius: 4px 0 0 4px;
+  line-height: 1.5;
+}
+.category-dropdown:focus {
+  outline: 4px solid #f08804;
+  box-shadow: 0 0 3px 1px rgba(240, 136, 4, 0.4);
+  border-radius: 10px 0 0 10px;
+  margin-right: 4px;
+  border: none;
+}
+.search-bar-wrapper {
+  display: flex;
+}
+.search-bar-wrapper--focused {
+  outline: 4px solid #f08804;
+  box-shadow: 0 0 4px rgba(240, 136, 4, 0.25);
+  border-radius: 4px 4px 4px 4px;
+}
+
+.search-button {
+  background-color: #febd69;
+  border-radius: 0 4px 4px 0;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: #111;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #f3a847;
+}
+.search-button svg {
+  color: #111;
+  font-size: 18px;
+}
+.cart-icon.active-cart {
+  color: yellow; /* or #f0c14b like Amazon */
+  transform: scale(1.05);
+}
+.continue-shopping-float {
+  position: absolute;
+  right: 150px; /* adjust as needed */
+  top: 20px;
+  z-index: 20;
+}
+
+.continue-shopping-float button {
+  background-color: #ffffff;
+  color: #0070f3;
+  border: 1px solid #0070f3;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.continue-shopping-float button:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  border-color: #94a3b8
+}
